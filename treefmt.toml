@@ -1,0 +1,19 @@
+excludes = [
+  "*.toml",
+  "*.yaml",
+  "*.md",
+  ".gitignore",
+  "flake.lock",
+  "extras/u2f-mappings"
+]
+
+[formatter.nix]
+command = "nix"
+options = [ "fmt" ]
+includes = [ "*.nix" ]
+excludes = []
+# Controls the order of application when multiple formatters match the same file
+# Lower the number, the higher the precedence
+# Default is 0
+priority = 0
+

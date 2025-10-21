@@ -20,31 +20,26 @@
       };
 
       nixosConfigurations = {
-        live = nixpkgs.lib.nixosSystem {
+        usb = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./modules
-            {
-              boot.kernelParams = [ "console=tty0" ];
-              boot.initrd.availableKernelModules = [
-                "usb_storage"
-                "uas"
-              ];
-            }
+            ./targets/usb.nix
           ];
         };
         qemu = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./modules
-            { boot.kernelParams = [ "console=ttyS0" ]; }
+            ./targets/qemu.nix
           ];
         };
       };
 
-      packages.x86_64-linux = {
-        live = self.nixosConfigurations.live.config.system.build.image;
+      packages.x86_64-linux = rec {
+        usb = self.nixosConfigurations.usb.config.system.build.image;
         qemu = qemu-helpers.convert self.nixosConfigurations.qemu.config;
+        default = qemu;
       };
     };
 }

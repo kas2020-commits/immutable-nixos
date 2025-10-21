@@ -17,8 +17,8 @@ in
     };
     "/boot" = {
       autoResize = false;
-      device = "/dev/disk/by-partlabel/${Label "ESP"}";
-      fsType = Fmt "ESP";
+      device = "/dev/disk/by-partlabel/${Label "esp"}";
+      fsType = Fmt "esp";
       options = [
         "rw"
         "noatime"

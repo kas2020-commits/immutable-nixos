@@ -1,3 +1,5 @@
+# DOC: https://nixos.org/manual/nixos/unstable/#sec-image-repart
+# DOC: https://nixos.org/manual/nixos/unstable/#sec-image-repart-appliance
 {
   config,
   pkgs,
@@ -9,15 +11,12 @@ let
   efiArch = pkgs.stdenv.hostPlatform.efiArch;
 in
 {
-
-  imports = [
-    "${modulesPath}/image/repart.nix"
-  ];
+  imports = [ "${modulesPath}/image/repart.nix" ];
 
   image.repart = {
     name = config.boot.uki.name;
     partitions = {
-      ESP = {
+      "esp" = {
         contents = {
           "/EFI/BOOT/BOOT${lib.toUpper efiArch}.EFI".source =
             "${pkgs.systemd}/lib/systemd/boot/efi/systemd-boot${efiArch}.efi";
@@ -32,7 +31,7 @@ in
           SizeMinBytes = "256M";
         };
       };
-      store = {
+      "store" = {
         storePaths = [ config.system.build.toplevel ];
         nixStorePrefix = "/";
         repartConfig = {
